@@ -3,8 +3,7 @@ package linked_list;
 public class LinkedList {
 
     public Node head = null;
-    public Node tail = null;
-    public boolean isSorted;
+
 
     // --------------------------------------------------------------------
     // A) INSERTION
@@ -13,10 +12,8 @@ public class LinkedList {
     public Node prepend(int value) {
         Node newNode = new Node(value);
 
-        // TODO:
-        //  1. Check if list is empty or contains >1 node.
-        //  2. Check if the list is sorted.
-        //  3. If it is not sorted, call merge sort.
+//        // Check if the list is sorted and sort if it is unsorted.
+//        if (!isSorted(head)) this.mergeSort(head);
 
         newNode.next = head; // If the linked list is not empty, make the current head the next node.
         head = newNode; // Insert the new node at the head.
@@ -43,15 +40,13 @@ public class LinkedList {
     public Node insertAtIndex(int value, int index) {
 
         Node currentNode = head;
-        Node previousNode = null;
+        Node previousNode;
         Node newNode = new Node(value);
         int counter = 0;
         int indexRange = calculateLength() - 1;
 
-        // TODO:
-        //  1. Check if list is empty or contains >1 node.
-        //  2. Check if the list is sorted.
-        //  3. If it is not sorted, call merge sort.
+//        // Check if the list is sorted and sort if it is unsorted.
+//        if (!isSorted(head)) this.mergeSort(head);
 
         if (index > indexRange) { // Error handling for an out-of-bounds index request.
             System.out.println("The requested index is out of bounds. " +
@@ -70,6 +65,7 @@ public class LinkedList {
         }
         return head;
     }
+
 
     // --------------------------------------------------------------------
     // B) DELETION
@@ -140,8 +136,9 @@ public class LinkedList {
         return head;
     }
 
+
     // --------------------------------------------------------------------
-    // C) MERGE SORT: SPLIT
+    // C) MERGE SORT: FRONT/BACK SPLIT
 
     // Reference: ------------------------------------------------------
     // - Geeks for Geeks. (2024, Sept. 19). Merge Sort for Linked Lists.
@@ -151,15 +148,17 @@ public class LinkedList {
     // C.1. Split the list into two sub-lists — one for the front half and one for the back half.
     // C.2. If the number of elements is odd, put the extra element in the front list.
 
-    public Node split() {
+    public Node frontBackSplit() {
 
+        // Variable to help determine whether number of nodes are even or odd
+        int listSize = this.calculateLength();
+
+        // Counters to find the midpoint
         Node length = head;
         Node mid = head;
 
         // Check for an empty or single-node linked list.
         while (length != null && length.next != null) {
-
-            // TODO: Check for even or odd list length.
 
             // Traverse the list to find the midpoint.
             // When the length counter reaches the end of the list, the mid counter will be at the midpoint.
@@ -169,22 +168,16 @@ public class LinkedList {
             }
         }
 
-        // Split the list into two halves
+        // Splits list and returns the head node of the back list.
+        // If the list is odd, the extra node goes in the front list.
         Node midNode = mid.next;
         mid.next = null;
         return midNode;
     }
 
-//        // Set the mid-point to divide the list.
-//        if (length % 2 == 0) {
-//            mid = length / 2;
-//        } else {
-//            mid = (length / 2) + 1;
-//        }
-
 
     // --------------------------------------------------------------------
-    // D) MERGE SORT: MERGE AND SORT
+    // D) MERGE SORT: SORT & MERGE
 
     // Reference: ------------------------------------------------------
     // - Geeks for Geeks. (2024, Sept. 19). Merge Sort for Linked Lists.
@@ -203,13 +196,12 @@ public class LinkedList {
 
         // Check for the node with the smaller value
         if (a.value < b.value) {
-
-            // Recursively merge the first list and return the result
+            // Recursively merge the first and return the result
             a.next = merge(a.next, b);
             return a;
         }
         else {
-            // Recursively merge the second list and return the result
+            // Recursively merge the second and return the result
             b.next = merge(a, b.next);
             return b;
         }
@@ -224,7 +216,7 @@ public class LinkedList {
         }
 
         // Split the list into two sub-lists
-        Node b = split();
+        Node b = frontBackSplit();
 
         // Recursively sort each sub-list
         a = mergeSort(a);
@@ -245,6 +237,16 @@ public class LinkedList {
         System.out.print("null \n");
     }
 
+    // PRINT LIST FROM NODE -------------------------------------
+    public void printLLFromNode(Node head) {
+        Node current = head; // Starting at the head, set a node to hold the current value to be printed.
+        while (current != null) { // Traverse through the LinkedList.
+            System.out.print(current.value + " --> "); // Print the value of the current node.
+            current = current.next; // Go to the next node.
+        }
+        System.out.print("null \n");
+    }
+
     // CALCULATE LENGTH -----------------------------------------
     public int calculateLength() {
         Node index = head;
@@ -256,4 +258,26 @@ public class LinkedList {
         return length;
     }
 
+    // CHECK IF LIST IS SORTED --------------------------------------------
+    // Reference: ---------------------------------------------------------
+    // - Geeks for Geeks. (2024, August 29).
+    //      Check if a linked list is sorted in non-increasing order.
+    //      https://www.geeksforgeeks.org/check-linked-list-sorting-order/
+    // --------------------------------------------------------------------
+
+    public boolean isSorted(Node n) {
+
+        // Check if the list is empty or a single node
+        if (n == null || n.next == null) {
+            return true; // Is sorted
+        }
+
+        // Compare current node and the next node to check if they are in order.
+        if (n.value > n.next.value) {
+            return false; // Is not sorted
+        }
+
+        // Recursively progress through the list, checking the next pair of nodes
+        return isSorted(n.next);
+    }
 }

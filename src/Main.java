@@ -3,28 +3,32 @@ import linked_list.*;
 public class Main {
     public static void main(String[] args) {
 
-        System.out.println("\n-----------   L I N K E D   L I S T   O P E R A T I O N S   -----------");
+        System.out.println("\n------------------   L I S T   O P E R A T I O N S   ------------------");
 
         // List creation and initialization ----------------------------
         LinkedList ll = new LinkedList();
         ll.append(3);
-        ll.append(1);
         ll.append(5);
+        ll.append(1);
         ll.append(4);
-        ll.append(2);
+        ll.append(6);
+//        ll.append(2);
+//        ll.append(8);
+//        ll.append(9);
+//        ll.append(7);
         System.out.println("\nOriginal linked list:");
         ll.printLL();
 
 
         // a) INSERTION TESTS ------------------------------------------
-        System.out.println("\nA) NODE INSERTION -----------------------------------------------");
+        System.out.println("\nA) NODE INSERTION -----------------------------------------------------");
 
         // A.1. Test insertion at the beginning of the sorted list
         System.out.println("\nA.1. Insert at the beginning of the sorted list");
         System.out.print("Before: ");
         ll.printLL();
         System.out.print("After: ");
-        ll.prepend(11);
+        ll.prepend(9);
         ll.printLL();
 
         // A.2. Test insertion at the end of the sorted list
@@ -32,7 +36,7 @@ public class Main {
         System.out.print("Before: ");
         ll.printLL();
         System.out.print("After: ");
-        ll.append(101);
+        ll.append(8);
         ll.printLL();
 
         // A.3. Test insertion at a given location in the sorted list
@@ -41,12 +45,12 @@ public class Main {
         System.out.print("Before: ");
         ll.printLL();
         System.out.print("After: ");
-        ll.insertAtIndex(666, index);
+        ll.insertAtIndex(7, index);
         ll.printLL();
 
 
         // B) DELETION TESTS -------------------------------------------
-        System.out.println("\nB) NODE DELETION -----------------------------------------------");
+        System.out.println("\nB) NODE DELETION -----------------------------------------------------");
 
         // B.1. Test deletion of the first node from the sorted list
         System.out.println("\nB.1. Delete the first node (head) from the sorted list");
@@ -74,16 +78,24 @@ public class Main {
         ll.printLL();
 
         // C) SPLIT TEST -----------------------------------------------
-        ll.split();
-        //System.out.println(ll.split().value);
+        System.out.println("\nC) SPLIT LIST --------------------------------------------------------");
+        System.out.print("\nOriginal list: ");
+        ll.printLL();
+
+        Node backList = ll.frontBackSplit();
+        System.out.print("Front list: ");
+        ll.printLL();
+        System.out.print("Back list: ");
+        ll.printLLFromNode(backList);
 
         // D) MERGE SORT TEST ------------------------------------------
-        // TODO: Test merge sort on the list
-//        System.out.println("Before:");
-//        ll.printLL();
-//        System.out.println("After:");
-//        ll.mergeSort(ll.head);
-//        ll.printLL();
+        System.out.println("\nB) MERGE SORT --------------------------------------------------------");
+        System.out.println("\nSort an unsorted list using split and merge sort");
+        System.out.print("Before: List sorted = " + ll.isSorted(ll.head) + "   |   ");
+        ll.printLL();
+        ll.head = ll.mergeSort(ll.head);
+        System.out.print("After: List sorted = " + ll.isSorted(ll.head) + "   |   ");
+        ll.printLL();
 
     }
 
