@@ -12,8 +12,10 @@ public class LinkedList {
     public Node prepend(int value) {
         Node newNode = new Node(value);
 
-//        // Check if the list is sorted and sort if it is unsorted.
-//        if (!isSorted(head)) this.mergeSort(head);
+        // Check if the list is sorted and sort if it is unsorted.
+        if (!isSorted(head)) {
+            head = this.mergeSort(head);
+        }
 
         newNode.next = head; // If the linked list is not empty, make the current head the next node.
         head = newNode; // Insert the new node at the head.
@@ -24,11 +26,31 @@ public class LinkedList {
     public Node append(int value) {
         Node newNode = new Node(value);
         Node currentNode = head;
+
+        // Check if the list is sorted and sort if it is unsorted.
+        if (!isSorted(head)) {
+            head = this.mergeSort(head);
+        }
+
         if (head == null) { // Check if the linked list is empty.
             head = newNode; // If empty, make the new node the head.
         } else {
-            // TODO: Check if list is sorted, call sort function if not
-            while (currentNode.next != null) { // If the linked list is not empty, go to end of the list.
+            while (currentNode.next != null) { // If the list is not empty, go to end of the list.
+                currentNode = currentNode.next; // Reassign the current tail.
+            }
+            currentNode.next = newNode; // Set the current tail's next to point to the new node.
+        }
+        return head;
+    }
+
+    public Node appendUnsorted(int value) {
+        Node newNode = new Node(value);
+        Node currentNode = head;
+
+        if (head == null) { // Check if the linked list is empty.
+            head = newNode; // If empty, make the new node the head.
+        } else {
+            while (currentNode.next != null) { // If the list is not empty, go to end of the list.
                 currentNode = currentNode.next; // Reassign the current tail.
             }
             currentNode.next = newNode; // Set the current tail's next to point to the new node.
@@ -45,8 +67,10 @@ public class LinkedList {
         int counter = 0;
         int indexRange = calculateLength() - 1;
 
-//        // Check if the list is sorted and sort if it is unsorted.
-//        if (!isSorted(head)) this.mergeSort(head);
+        // Check if the list is sorted and sort if it is unsorted.
+        if (!isSorted(head)) {
+            head = this.mergeSort(head);
+        }
 
         if (index > indexRange) { // Error handling for an out-of-bounds index request.
             System.out.println("The requested index is out of bounds. " +
@@ -72,12 +96,17 @@ public class LinkedList {
 
     // B.1. Deletion of first node
     public Node deleteHead() {
+
+        // Check if the list is sorted and sort if it is unsorted.
+        if (!isSorted(head)) {
+            head = this.mergeSort(head);
+        }
+
         // Check if the list is empty and return null if it is
         if (head == null) {
             System.out.println("This list is empty.");
             return null;
         } else {
-            // TODO: Check if list is sorted, call sort function if not
             Node temp = head; // Store the current head in a temporary variable
             head = head.next; // Move the head pointer to the next node
             temp = null;
@@ -87,8 +116,13 @@ public class LinkedList {
 
     // B.2. Deletion of last node
     public Node deleteTail() {
+
+        // Check if the list is sorted and sort if it is unsorted.
+        if (!isSorted(head)) {
+            head = this.mergeSort(head);
+        }
+
         if (head != null) { // Check if the list contains any nodes.
-            // TODO: Check if list is sorted, call sort function if not
             Node currentNode = head;
             Node prevNode = currentNode;
             while (currentNode.next != null) { // Iterate through the linked list to find the last node.
@@ -111,11 +145,10 @@ public class LinkedList {
         int counter = 0;
         int indexRange = calculateLength() - 1;
 
-        // TODO:
-        //  1. Check if list is empty or contains >1 node.
-        //  2. Check if the list is sorted.
-        //  3. If it is not sorted, call merge sort.
-        //  4. If it is sorted, insert new node at given location
+        // Check if the list is sorted and sort if it is unsorted.
+        if (!isSorted(head)) {
+            head = this.mergeSort(head);
+        }
 
         if (index > indexRange) { // Error handling for an out-of-bounds index request.
             System.out.println("The requested index is out of bounds. " +
@@ -148,22 +181,19 @@ public class LinkedList {
     // C.1. Split the list into two sub-lists — one for the front half and one for the back half.
     // C.2. If the number of elements is odd, put the extra element in the front list.
 
-    public Node frontBackSplit() {
-
-        // Variable to help determine whether number of nodes are even or odd
-        int listSize = this.calculateLength();
+    public Node frontBackSplit(Node n) {
 
         // Counters to find the midpoint
-        Node length = head;
-        Node mid = head;
+        Node index = n;
+        Node mid = n;
 
         // Check for an empty or single-node linked list.
-        while (length != null && length.next != null) {
+        while (index != null && index.next != null) {
 
             // Traverse the list to find the midpoint.
             // When the length counter reaches the end of the list, the mid counter will be at the midpoint.
-            length = length.next.next;
-            if (length != null) {
+            index = index.next.next;
+            if (index != null) {
                 mid = mid.next;
             }
         }
@@ -216,7 +246,7 @@ public class LinkedList {
         }
 
         // Split the list into two sub-lists
-        Node b = frontBackSplit();
+        Node b = frontBackSplit(a);
 
         // Recursively sort each sub-list
         a = mergeSort(a);
@@ -239,10 +269,10 @@ public class LinkedList {
 
     // PRINT LIST FROM NODE -------------------------------------
     public void printLLFromNode(Node head) {
-        Node current = head; // Starting at the head, set a node to hold the current value to be printed.
-        while (current != null) { // Traverse through the LinkedList.
-            System.out.print(current.value + " --> "); // Print the value of the current node.
-            current = current.next; // Go to the next node.
+        Node currentNode = head; // Starting at the head, set a node to hold the current value to be printed.
+        while (currentNode != null) { // Traverse through the LinkedList.
+            System.out.print(currentNode.value + " --> "); // Print the value of the current node.
+            currentNode = currentNode.next; // Go to the next node.
         }
         System.out.print("null \n");
     }

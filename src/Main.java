@@ -12,10 +12,9 @@ public class Main {
         ll.append(1);
         ll.append(4);
         ll.append(6);
-//        ll.append(2);
-//        ll.append(8);
-//        ll.append(9);
-//        ll.append(7);
+        ll.append(2);
+        ll.append(8);
+
         System.out.println("\nOriginal linked list:");
         ll.printLL();
 
@@ -36,16 +35,16 @@ public class Main {
         System.out.print("Before: ");
         ll.printLL();
         System.out.print("After: ");
-        ll.append(8);
+        ll.append(7);
         ll.printLL();
 
         // A.3. Test insertion at a given location in the sorted list
         int index = 3;
-        System.out.println("\nA.31. Insert at a given index (" + index + ") in the sorted list");
+        System.out.println("\nA.3. Insert at a given index (" + index + ") in the sorted list");
         System.out.print("Before: ");
         ll.printLL();
         System.out.print("After: ");
-        ll.insertAtIndex(7, index);
+        ll.insertAtIndex(10, index);
         ll.printLL();
 
 
@@ -82,20 +81,30 @@ public class Main {
         System.out.print("\nOriginal list: ");
         ll.printLL();
 
-        Node backList = ll.frontBackSplit();
+        Node temp = ll.head;
+        Node frontList = ll.head;
+        Node backList = ll.frontBackSplit(temp);
         System.out.print("Front list: ");
-        ll.printLL();
+        ll.printLLFromNode(frontList);
         System.out.print("Back list: ");
         ll.printLLFromNode(backList);
 
         // D) MERGE SORT TEST ------------------------------------------
-        System.out.println("\nB) MERGE SORT --------------------------------------------------------");
-        System.out.println("\nSort an unsorted list using split and merge sort");
-        System.out.print("Before: List sorted = " + ll.isSorted(ll.head) + "   |   ");
-        ll.printLL();
-        ll.head = ll.mergeSort(ll.head);
-        System.out.print("After: List sorted = " + ll.isSorted(ll.head) + "   |   ");
-        ll.printLL();
+
+        LinkedList ll2 = new LinkedList();
+        ll2.appendUnsorted(3);
+        ll2.appendUnsorted(5);
+        ll2.appendUnsorted(1);
+        ll2.appendUnsorted(4);
+        ll2.appendUnsorted(2);
+
+        System.out.println("\nD) MERGE SORT --------------------------------------------------------");
+        System.out.println("\nSort an unsorted list using merge sort (split and merge)");
+        System.out.print("Before: List sorted = " + ll2.isSorted(ll2.head) + "   |   ");
+        ll2.printLL();
+        ll2.head = ll2.mergeSort(ll2.head);
+        System.out.print("After: List sorted = " + ll2.isSorted(ll2.head) + "   |   ");
+        ll2.printLL();
 
     }
 
